@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package bookstore;
+
+message Book  {
+  int64 id = 1;
+  string title = 2;
+  string publisher =3;
+  google.protobuf.Timestamp published_date = 4;
+}
+
+message Author  {
+  int64 id = 1;
+  string name = 2;
+}
+
+message  Review {
+  int64 id = 1;
+  int64 book_id = 2;
+  string content = 3;
+  float rating = 4;
+  google.protobuf.Timestamp created_date = 5;
+}
+
+service BookService {
+  rpc Addbook(AddBookRequest) returns (Book)  {}
+  rpc GetbookDetails(GetBookDetailRequest) returns (Book)  {}
+  rpc Listbook(ListBookRequest) returns (stream Book)  {}
+  rpc SearchBooksByAuthor(SearchBooksByAuthorRequest) returns (stream Book)  {}
+}
+
+service ReviewServcice  {
+  rpc GetReviews(GetReviewsRequest) returns (stream Review) {}
+}
+
+message GetReviewsRequest {
+  int64 book_id = 1;
+}
+
+message AddBookRequest  {
+  string title = 1;
+  string publisher = 2;
+  google.protobuf.Timestamp published_date = 3;
+}
+
+message GetBookDetailRequest  {
+  int64 book_id = 1;
+}
+
+message ListBookRequest {
+}
+
+message SearchBooksByAuthorRequest  {
+  string author_name = 1;
+}
+
